@@ -6,18 +6,19 @@ import torch
 import os
 from glob import glob
 from .lidar_utils import point_cloud_to_range_image
+from torch.utils.data import DataLoader
 
 class KITTI(Dataset):
 
-    def __init__(self, path, config, split = 'train', resolution=None, transform=None):
+    def __init__(self, path, split = 'train', resolution=None, transform=None):
         self.transform = transform
-        self.return_remission = (config.data.channels == 2)
-        self.random_roll = config.data.random_roll
-        full_list = glob('/home/vlas/Desktop/datasets/kitti360/KITTI-360/data_3d_raw/*/velodyne_points/data/*.bin')
-        if split == "train":
-            self.full_list = list(filter(lambda file: '0000_sync' not in file and '0001_sync' not in file, full_list))
-        else:
-            self.full_list = list(filter(lambda file: '0000_sync' in file or '0001_sync' in file, full_list))
+        self.return_remission = True (config.data.channels == 2)
+        self.random_roll = True #config.data.random_roll
+        full_list = glob('/root/PU-NET/datas/Lidar/*.bin')
+        # if split == "train":
+        #     self.full_list = list(filter(lambda file: '0000_sync' not in file and '0001_sync' not in file, full_list))
+        # else:
+        #     self.full_list = list(filter(lambda file: '0000_sync' in file or '0001_sync' in file, full_list))
         self.length = len(self.full_list)
 
     def __len__(self):
@@ -49,8 +50,12 @@ class KITTI(Dataset):
             intensity = np.expand_dims(intensity, axis = 0)
             real = np.concatenate((real, intensity), axis = 0)
 
-        return real, 0
+        return real# , 0
 
 if __name__ == "__main__":
     dataloader = KITTI()
+    eval_loader = DataLoader(dataloader, batch_size=8, shuffle=False, pin_memory=True, num_workers=1)
+
+    for itr, batch in enumerate(eval_loader):
+        print(np.shape(batch))
     
