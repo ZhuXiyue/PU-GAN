@@ -255,8 +255,8 @@ class LaserScan:
                             "but was {type}".format(type=str(type(filename))))
 
         # check extension is a laserscan
-        if not any(filename.endswith(ext) for ext in self.EXTENSIONS_SCAN):
-            raise RuntimeError("Filename extension is not valid scan file.")
+        # if not any(filename.endswith(ext) for ext in self.EXTENSIONS_SCAN):
+        #     raise RuntimeError("Filename extension is not valid scan file.")
 
         # if all goes well, open pointcloud
         scan = np.fromfile(filename, dtype=np.float32)
