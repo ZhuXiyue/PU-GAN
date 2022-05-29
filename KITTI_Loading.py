@@ -4,7 +4,7 @@ from torch.utils.data import Dataset
 import numpy as np
 # import torch
 # import os
-from glob import glob
+import glob as glb
 from lidar_utils import *
 from torch.utils.data import DataLoader
 
@@ -14,7 +14,7 @@ class KITTI(Dataset):
         self.transform = transform
         self.return_remission = True # (config.data.channels == 2)
         self.random_roll = True #config.data.random_roll
-        self.full_list = glob('/root/PU-NET/datas/Lidar/*.bin')
+        self.full_list = glb.glob('/root/PU-NET/datas/Lidar/*.bin')
         # if split == "train":
         #     self.full_list = list(filter(lambda file: '0000_sync' not in file and '0001_sync' not in file, full_list))
         # else:
