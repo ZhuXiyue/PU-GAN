@@ -29,7 +29,7 @@ class KITTI(Dataset):
     def __getitem__(self, idx):
 
         filename = self.full_list[idx]
-        scan = np.load(filename, dtype=np.float32)
+        scan = np.load(filename)
         # scan = scan.reshape((-1, 4))
 
         # put in attribute
