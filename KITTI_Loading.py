@@ -10,9 +10,9 @@ from torch.utils.data import DataLoader
 
 class KITTI(Dataset):
 
-    def __init__(self, path, split = 'train', resolution=None, transform=None):
+    def __init__(self, path = '', split = 'train', resolution=None, transform=None):
         self.transform = transform
-        self.return_remission = True (config.data.channels == 2)
+        self.return_remission = True # (config.data.channels == 2)
         self.random_roll = True #config.data.random_roll
         full_list = glob('/root/PU-NET/datas/Lidar/*.bin')
         # if split == "train":
