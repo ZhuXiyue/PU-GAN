@@ -34,9 +34,10 @@ class KITTI(Dataset):
         points = scan[:, 0:3]    # get xyz
         np.save('raw',points)
         if self.return_remission:
-            real, intensity = point_cloud_to_range_image(filename, False, self.return_remission)
+            ori_points, real, intensity = point_cloud_to_range_image(filename, False, self.return_remission)
         else:
             real = point_cloud_to_range_image(filename, False, self.return_remission)
+        print(np.shape(ori_points))
         #Make negatives 0
         real = np.where(real<0, 0, real) + 0.0001
         #Apply log

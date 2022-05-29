@@ -113,7 +113,7 @@ def plot_range_image(point_cloud):
     plt.show()
 
 
-def point_cloud_to_range_image(point_cloud, isMatrix, return_remission = False, return_points=False):
+def point_cloud_to_range_image(point_cloud, isMatrix, return_remission = False, return_points=True):
     if (isMatrix):
         laser_scan = LaserScan()
         laser_scan.set_points(point_cloud)
@@ -153,8 +153,8 @@ def range_image_to_point_cloud(range_image):
             x = range_image[w_i, h_i] * x
             y = range_image[w_i, h_i] * y
             z = range_image[w_i, h_i] * z
-            if not range_image[w_i, h_i] == -1:
-                points.append(np.array([x,y,z]))
+
+            points.append(np.array([x,y,z]))
     return np.stack(points, axis=0)
 
 
@@ -180,10 +180,9 @@ def range_image_to_point_cloud_image(range_image):
             x = range_image[w_i, h_i] * x
             y = range_image[w_i, h_i] * y
             z = range_image[w_i, h_i] * z
-            if range_image[w_i, h_i] == -1:
-                points[w_i,h_i] = np.array([0,0,0])
-            else:
-                points[w_i,h_i] = np.array([x,y,z])
+            # if range_image[w_i, h_i] == -1:
+                # points[w_i,h_i] = np.array([0,0,0])
+            points[w_i,h_i] = np.array([x,y,z])
     return points #np.stack(points, axis=0)
 
 
