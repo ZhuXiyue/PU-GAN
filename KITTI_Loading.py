@@ -13,7 +13,7 @@ class KITTI(Dataset):
     def __init__(self, path = '', split = 'train', resolution=None, transform=None):
         self.transform = transform
         self.return_remission = True # (config.data.channels == 2)
-        self.random_roll = True #config.data.random_roll
+        self.random_roll = False #config.data.random_roll
         # self.full_list = glb.glob('/root/PU-NET/datas/Lidar/*.bin')
         self.full_list = glb.glob('/root/metrics/*')
         
@@ -30,7 +30,7 @@ class KITTI(Dataset):
 
         filename = self.full_list[idx]
         scan = np.fromfile(filename, dtype=np.float32)
-        scan = scan.reshape((-1, 4))
+        # scan = scan.reshape((-1, 4))
 
         # put in attribute
         points = scan[:, 0:3]    # get xyz
