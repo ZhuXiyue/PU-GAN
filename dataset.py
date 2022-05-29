@@ -67,6 +67,8 @@ class PUNET_Dataset(torch_data.Dataset):
         self.gt = h5_file['poisson_4096'][:] # [:] h5_obj => nparray
         self.input = h5_file['poisson_4096'][:] if use_random \
                             else h5_file['montecarlo_1024'][:]
+
+        print('ori_shape',np.shape(self.gt),np.shape(self.input))
         
         if split in ['train', 'test']:
             with open('./datas/{}_list.txt'.format(split), 'r') as f:
@@ -101,9 +103,10 @@ class PUNET_Dataset(torch_data.Dataset):
         input_data = self.input[index]
         gt_data = self.gt[index]
         radius_data = np.array([self.radius[index]])
-        print(np.mean(radius_data))
-        print(np.std(radius_data))
-        print(radius_data)
+        # radius is mostly 1
+        # print(np.mean(radius_data))
+        # print(np.std(radius_data))
+        # print(radius_data)
 
         sample_idx = utils.nonuniform_sampling(self.data_npoint, sample_num=self.npoint)
         input_data = input_data[sample_idx, :]

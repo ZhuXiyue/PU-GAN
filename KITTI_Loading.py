@@ -53,6 +53,7 @@ class KITTI(Dataset):
         # get point cloud img
         range_im = real[0] # 64*1024
         pts_im = range_image_to_point_cloud_image(range_im) # 64*1024*3
+        for idx in 
         # split the point images 
         # pts_ims = 
         return real# , 0
