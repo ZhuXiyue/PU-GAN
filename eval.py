@@ -80,8 +80,9 @@ if __name__ == '__main__':
                 np.save("pres_"+str(itr)+"_"+str(i),cur_preds.detach().cpu().numpy())
                 print(np.shape(cur_preds.detach().cpu().numpy()))
 
-                preds.append(cur_preds)
-            preds = np.array(preds)
+                preds.append(np.array(cur_preds))
+            preds = np.array(preds) # 8, 4096, 3
+            # preds = preds.reshape(())
             print(np.shape(preds))
 
             np.save("pts_"+str(itr)+"_",points.detach().cpu().numpy())
