@@ -180,8 +180,10 @@ def range_image_to_point_cloud_image(range_image):
             x = range_image[w_i, h_i] * x
             y = range_image[w_i, h_i] * y
             z = range_image[w_i, h_i] * z
-
-            points[w_i,h_i] = np.array([x,y,z])
+            if range_image[w_i, h_i] == -1:
+                points[w_i,h_i] = np.array([0,0,0])
+            else:
+                points[w_i,h_i] = np.array([x,y,z])
     return points #np.stack(points, axis=0)
 
 
