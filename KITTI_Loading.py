@@ -76,7 +76,7 @@ class KITTI(Dataset):
         pts = pts_im.reshape(16,4096,6)
         np.save("sample_patch",pts[0,:,:3])
         input_data = input_data.reshape(16,1024,6)
-        
+        np.save("sample_input",input_data[0,:,:3])
         
         # normalize
         data_npoint = pts.shape[1]
