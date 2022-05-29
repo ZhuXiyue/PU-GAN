@@ -69,7 +69,12 @@ class PUNET_Dataset(torch_data.Dataset):
                             else h5_file['montecarlo_1024'][:]
 
         # print('ori_shape',np.shape(self.gt),np.shape(self.input))
-        
+        print("for last channels")
+        print(np.max(self.gt[:,:,4:]))
+        print(np.min(self.gt[:,:,4:]))
+        print(np.mean(self.gt[:,:,4:]))
+        print(np.std(self.gt[:,:,4:])) 
+               
         if split in ['train', 'test']:
             with open('./datas/{}_list.txt'.format(split), 'r') as f:
                 split_choice = [int(x) for x in f]
@@ -107,11 +112,12 @@ class PUNET_Dataset(torch_data.Dataset):
         # print(np.mean(radius_data))
         # print(np.std(radius_data))
         # print(radius_data)
-        print("for last channels")
-        print(np.max(gt_data[:,4:]))
-        print(np.min(gt_data[:,4:]))
-        print(np.mean(gt_data[:,4:]))
-        print(np.std(gt_data[:,4:]))
+
+        # print("for last channels")
+        # print(np.max(gt_data[:,4:]))
+        # print(np.min(gt_data[:,4:]))
+        # print(np.mean(gt_data[:,4:]))
+        # print(np.std(gt_data[:,4:]))
         sample_idx = utils.nonuniform_sampling(self.data_npoint, sample_num=self.npoint)
         input_data = input_data[sample_idx, :]
 
