@@ -5,7 +5,7 @@ import numpy as np
 import torch
 import os
 from glob import glob
-from .lidar_utils import point_cloud_to_range_image
+from lidar_utils import point_cloud_to_range_image
 from torch.utils.data import DataLoader
 
 class KITTI(Dataset):
