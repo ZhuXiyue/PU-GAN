@@ -32,7 +32,7 @@ class KITTI(Dataset):
 
         # put in attribute
         points = scan[:, 0:3]    # get xyz
-        np.save('raw',points)
+        # np.save('raw',points)
         if self.return_remission:
             ori_points, real, intensity = point_cloud_to_range_image(filename, False, self.return_remission)
         else:
@@ -61,7 +61,7 @@ class KITTI(Dataset):
         # get point cloud img
         range_im = real[0] # 64*1024
         pts_im = ori_points #range_image_to_point_cloud_image(range_im) # 64*1024*3
-        np.save("sample.npy",pts_im.reshape((64*1024,3)))
+        # np.save("sample.npy",pts_im.reshape((64*1024,3)))
         # np.save("sample_ori.npy",range_image_to_point_cloud(range_im))
 
         # split the point images and add features
@@ -74,9 +74,9 @@ class KITTI(Dataset):
         input_data = input_data.transpose((1,0,2,3))# (16,16,64,6)
         
         pts = pts_im.reshape(16,4096,6)
-        np.save("sample_patch",pts[0,:,:3])
+        # np.save("sample_patch",pts[0,:,:3])
         input_data = input_data.reshape(16,1024,6)
-        np.save("sample_input",input_data[0,:,:3])
+        # np.save("sample_input",input_data[0,:,:3])
         
         # normalize
         data_npoint = pts.shape[1]
