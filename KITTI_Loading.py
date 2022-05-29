@@ -53,7 +53,7 @@ class KITTI(Dataset):
         # get point cloud img
         range_im = real[0] # 64*1024
         pts_im = range_image_to_point_cloud_image(range_im) # 64*1024*3
-        np.save("sample.npy",pts_im.reshape((64*1024,3)))
+        np.save("sample_ori.npy",range_image_to_point_cloud(range_im))
         # split the point images and add features
         features = np.zeros((64,16,64,3)) + 0.042
         pts_im = pts_im.reshape((64,16,64,3))
