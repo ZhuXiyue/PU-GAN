@@ -14,7 +14,7 @@ class KITTI(Dataset):
         self.transform = transform
         self.return_remission = True # (config.data.channels == 2)
         self.random_roll = True #config.data.random_roll
-        full_list = glob('/root/PU-NET/datas/Lidar/*.bin')
+        self.full_list = glob('/root/PU-NET/datas/Lidar/*.bin')
         # if split == "train":
         #     self.full_list = list(filter(lambda file: '0000_sync' not in file and '0001_sync' not in file, full_list))
         # else:
