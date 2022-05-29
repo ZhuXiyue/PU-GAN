@@ -259,7 +259,7 @@ class LaserScan:
         #     raise RuntimeError("Filename extension is not valid scan file.")
 
         # if all goes well, open pointcloud
-        scan = np.fromfile(filename, dtype=np.float32)
+        scan = np.load(filename, dtype=np.float32)#np.fromfile(filename, dtype=np.float32)
         # scan = scan.reshape((-1, 4))
 
         # put in attribute
