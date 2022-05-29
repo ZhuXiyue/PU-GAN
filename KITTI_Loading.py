@@ -33,7 +33,7 @@ class KITTI(Dataset):
         # scan = scan.reshape((-1, 4))
 
         # put in attribute
-        points = scan[:, 0:3]    # get xyz
+        points = scan #[:, 0:3]    # get xyz
         # np.save('raw',points)
         if self.return_remission:
             ori_points, real, intensity = point_cloud_to_range_image(filename, False, self.return_remission)

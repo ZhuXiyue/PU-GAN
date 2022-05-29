@@ -260,11 +260,11 @@ class LaserScan:
 
         # if all goes well, open pointcloud
         scan = np.fromfile(filename, dtype=np.float32)
-        # scan = scan.reshape((-1, 4))
+        scan = scan.reshape((-1, 4))
 
         # put in attribute
-        points = scan[:, 0:3]    # get xyz
-        remissions = scan[:, 3]  # get remission
+        points = scan #[:, 0:3]    # get xyz
+        remissions = None #scan[:, 3]  # get remission
         self.set_points(points, remissions)
 
     def set_points(self, points, remissions=None):
