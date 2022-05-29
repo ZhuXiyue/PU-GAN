@@ -53,12 +53,34 @@ class KITTI(Dataset):
         # get point cloud img
         range_im = real[0] # 64*1024
         pts_im = range_image_to_point_cloud_image(range_im) # 64*1024*3
+        # split the point images and add features
         features = np.zeros((64,16,64,3)) + 0.042
         pts_im = pts_im.reshape((64,16,64,3))
-        pts_im = np.concatenate((pts_im,features),axis = 3)
-        # split the point images 
+        pts_im = np.concatenate((pts_im,features),axis = 3) # (64,16,64,6)
+        ## sampling
+        input_data = pts[0:64:4,:,:,:] #(16,16,64,6)
+        pts_im = pts_im.transpose((1,0,2,3))# 16 64, 64,6
+        input_data = input_data.transpose((1,0,2,3))# (16,16,64,6)
+        
+        pts = pts_im.reshape(16,4096,6)
+        input_data = input_data.reshape(16,1024,6)
+        
+        
+        # normalize
+        data_npoint = pts.shape[1]
+
+        centroid = np.mean(pts[..., :3], axis=1, keepdims=True)
+        furthest_distance = np.amax(np.sqrt(np.sum((pts[..., :3] - centroid) ** 2, axis=-1)), axis=1, keepdims=True)
+        # radius = furthest_distance[:, 0] # not very sure?
+
+        radius = np.ones(shape=16)
+        pts[..., :3] -= centroid
+        pts[..., :3] /= np.expand_dims(furthest_distance, axis=-1)
+        input_data[..., :3] -= centroid
+        input_data[..., :3] /= np.expand_dims(furthest_distance, axis=-1)
+
         # pts_ims = 
-        return pts_im# , 0
+        return # , 0
 
 if __name__ == "__main__":
     dataloader = KITTI()
