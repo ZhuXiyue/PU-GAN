@@ -62,7 +62,7 @@ if __name__ == '__main__':
     cd_list = []
     with torch.no_grad():
         for itr, batch in enumerate(eval_loader):
-            points, gt, radius = batch
+            points, gt, radius,centroid,furthest_distance  = batch
             preds = []
             for i in range(16):
                 cur_points = points[:,i,:,:3].float().cuda().contiguous()
@@ -83,14 +83,23 @@ if __name__ == '__main__':
                 preds.append(cur_preds.detach().cpu().numpy())
 
             preds = np.array(preds) #16, 8, 4096, 3
-            preds = preds.transpose((1,0,2,3)) # .reshape((8,16*4096,3))
+            preds = preds.transpose((1,0,2,3))[0] # .reshape((8,16*4096,3))
+            gt = gt.detach().cpu().numpy()[0]
+            points = points.detach().cpu().numpy()[0]
             
+            gt[..., :3] += centroid
+            gt[..., :3] *= np.expand_dims(furthest_distance, axis=-1)
+            points[..., :3] += centroid
+            points[..., :3] *= np.expand_dims(furthest_distance, axis=-1)
+            preds[..., :3] += centroid
+            preds[..., :3] *= np.expand_dims(furthest_distance, axis=-1)
+
             print(np.shape(preds))
             print(np.shape(gt))
             print(np.shape(points))
 
-            np.save("pts_"+str(itr)+"_",points.detach().cpu().numpy())
-            np.save("gts_"+str(itr)+"_",gt.detach().cpu().numpy())
+            np.save("pts_"+str(itr)+"_",gt)
+            np.save("gts_"+str(itr)+"_",preds)
             np.save("preds_"+str(itr)+"_",preds)
             
     print('mean emd: {}'.format(np.mean(emd_list)))

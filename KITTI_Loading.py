@@ -92,7 +92,7 @@ class KITTI(Dataset):
         input_data[..., :3] /= np.expand_dims(furthest_distance, axis=-1)
 
         # pts_ims = 
-        return input_data,pts, radius # , 0
+        return input_data,pts, radius,centroid,furthest_distance # , 0
 
 if __name__ == "__main__":
     dataloader = KITTI()
