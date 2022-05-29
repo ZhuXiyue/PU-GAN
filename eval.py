@@ -63,7 +63,6 @@ if __name__ == '__main__':
     with torch.no_grad():
         for itr, batch in enumerate(eval_loader):
             points, gt, radius = batch
-            
             for i in range(16):
                 cur_points = points[:,i,:,:3].float().cuda().contiguous()
                 cur_gt = gt[:,i,:,:3].float().cuda().contiguous()
@@ -74,6 +73,8 @@ if __name__ == '__main__':
                 print(' -- iter {}, emd {}, cd {}.'.format(itr, emd, cd))
                 emd_list.append(emd.item())
                 cd_list.append(cd.item())
-    
+                np.save("pts_"+str(itr)+"_"+str(i),cur_points.detach().cpu().numpy())
+                np.save("gts_"+str(itr)+"_"+str(i),cur_gt.detach().cpu().numpy())
+
     print('mean emd: {}'.format(np.mean(emd_list)))
     print('mean cd: {}'.format(np.mean(cd_list)))
