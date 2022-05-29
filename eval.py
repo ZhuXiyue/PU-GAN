@@ -89,12 +89,13 @@ if __name__ == '__main__':
             centroid = centroid.detach().cpu().numpy()[0]
             furthest_distance = furthest_distance.detach().cpu().numpy()[0]
             
-            gt[..., :3] += centroid
             gt[..., :3] *= np.expand_dims(furthest_distance, axis=-1)
-            points[..., :3] += centroid
+            gt[..., :3] += centroid
             points[..., :3] *= np.expand_dims(furthest_distance, axis=-1)
-            preds[..., :3] += centroid
+            points[..., :3] += centroid
             preds[..., :3] *= np.expand_dims(furthest_distance, axis=-1)
+            preds[..., :3] += centroid
+            
 
             print(np.shape(preds))
             print(np.shape(gt))
