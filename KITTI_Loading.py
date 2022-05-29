@@ -27,6 +27,12 @@ class KITTI(Dataset):
     def __getitem__(self, idx):
 
         filename = self.full_list[idx]
+        scan = np.fromfile(filename, dtype=np.float32)
+        scan = scan.reshape((-1, 4))
+
+        # put in attribute
+        points = scan[:, 0:3]    # get xyz
+        np.save('raw',points)
         if self.return_remission:
             real, intensity = point_cloud_to_range_image(filename, False, self.return_remission)
         else:
@@ -53,7 +59,9 @@ class KITTI(Dataset):
         # get point cloud img
         range_im = real[0] # 64*1024
         pts_im = range_image_to_point_cloud_image(range_im) # 64*1024*3
-        np.save("sample_ori.npy",range_image_to_point_cloud(range_im))
+        # np.save("sample.npy",pts_im.reshape((64*1024,3)))
+        # np.save("sample_ori.npy",range_image_to_point_cloud(range_im))
+
         # split the point images and add features
         features = np.zeros((64,16,64,3)) + 0.042
         pts_im = pts_im.reshape((64,16,64,3))
