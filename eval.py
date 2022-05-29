@@ -95,7 +95,9 @@ if __name__ == '__main__':
             # points[..., :3] += centroid
             # preds[..., :3] *= np.expand_dims(furthest_distance, axis=-1)
             # preds[..., :3] += centroid
-            
+            preds = preds.reshape((24,16*4096,3))
+            gt = gt.reshape((24,16*4096,3))
+            points = points.reshape((24,16*1024,3))
 
             print(np.shape(preds))
             print(np.shape(gt))
