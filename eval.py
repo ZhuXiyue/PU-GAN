@@ -83,9 +83,11 @@ if __name__ == '__main__':
                 preds.append(cur_preds.detach().cpu().numpy())
 
             preds = np.array(preds) #16, 8, 4096, 3
-            preds = preds.transpose((1,0,2,3)).reshape((8,16*4096,3))
+            preds = preds.transpose((1,0,2,3)) # .reshape((8,16*4096,3))
             
             print(np.shape(preds))
+            print(np.shape(gt))
+            print(np.shape(points))
 
             np.save("pts_"+str(itr)+"_",points.detach().cpu().numpy())
             np.save("gts_"+str(itr)+"_",gt.detach().cpu().numpy())
