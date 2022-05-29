@@ -79,12 +79,14 @@ if __name__ == '__main__':
                 np.save("gts_"+str(itr)+"_"+str(i),cur_gt.detach().cpu().numpy())
                 np.save("pres_"+str(itr)+"_"+str(i),cur_preds.detach().cpu().numpy())
                 print(np.shape(cur_preds.detach().cpu().numpy()))
-                
+
                 preds.append(cur_preds)
-            preds = np.array(preds).reshape(-1,3)
+            preds = np.array(preds)
+            print(np.shape(preds))
+
             np.save("pts_"+str(itr)+"_",points.detach().cpu().numpy())
             np.save("gts_"+str(itr)+"_",gt.detach().cpu().numpy())
-            np.save("preds_"+str(itr)+"_",preds.detach().cpu().numpy())
+            np.save("preds_"+str(itr)+"_",preds)
             
     print('mean emd: {}'.format(np.mean(emd_list)))
     print('mean cd: {}'.format(np.mean(cd_list)))
