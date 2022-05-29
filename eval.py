@@ -67,7 +67,7 @@ if __name__ == '__main__':
             for i in range(16):
                 cur_points = points[:,i,:,:3].float().cuda().contiguous()
                 cur_gt = gt[:,i,:,:3].float().cuda().contiguous()
-                cur_radius = radius[:,i].float().cuda()
+                cur_radius = radius[:,i:i+1].float().cuda()
                 cur_preds = model(cur_points, npoint=None) #points.shape[1])
                 emd = get_emd_loss(cur_preds, cur_gt, cur_radius)
                 cd = get_cd_loss(cur_preds, cur_gt, cur_radius)
