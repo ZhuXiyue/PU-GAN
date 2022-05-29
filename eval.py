@@ -86,15 +86,15 @@ if __name__ == '__main__':
             preds = preds.transpose((1,0,2,3)) # .reshape((8,16*4096,3))
             gt = gt.detach().cpu().numpy()[:,:,:,:3]
             points = points.detach().cpu().numpy()[:,:,:,:3]
-            # centroid = centroid.detach().cpu().numpy()
-            # furthest_distance = furthest_distance.detach().cpu().numpy()
+            centroid = centroid.detach().cpu().numpy()
+            furthest_distance = furthest_distance.detach().cpu().numpy()
             
-            # gt[..., :3] *= np.expand_dims(furthest_distance, axis=-1)
-            # gt[..., :3] += centroid
-            # points[..., :3] *= np.expand_dims(furthest_distance, axis=-1)
-            # points[..., :3] += centroid
-            # preds[..., :3] *= np.expand_dims(furthest_distance, axis=-1)
-            # preds[..., :3] += centroid
+            gt[..., :3] *= np.expand_dims(furthest_distance, axis=-1)
+            gt[..., :3] += centroid
+            points[..., :3] *= np.expand_dims(furthest_distance, axis=-1)
+            points[..., :3] += centroid
+            preds[..., :3] *= np.expand_dims(furthest_distance, axis=-1)
+            preds[..., :3] += centroid
             preds = preds.reshape((24,16*4096,3))
             gt = gt.reshape((24,16*4096,3))
             points = points.reshape((24,16*1024,3))
