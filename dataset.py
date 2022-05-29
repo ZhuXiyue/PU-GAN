@@ -101,6 +101,9 @@ class PUNET_Dataset(torch_data.Dataset):
         input_data = self.input[index]
         gt_data = self.gt[index]
         radius_data = np.array([self.radius[index]])
+        print(np.mean(radius_data))
+        print(np.std(radius_data))
+        print(radius_data)
 
         sample_idx = utils.nonuniform_sampling(self.data_npoint, sample_num=self.npoint)
         input_data = input_data[sample_idx, :]

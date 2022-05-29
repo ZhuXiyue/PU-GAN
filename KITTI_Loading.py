@@ -5,7 +5,7 @@ import numpy as np
 # import torch
 # import os
 from glob import glob
-from lidar_utils import point_cloud_to_range_image
+from lidar_utils import *
 from torch.utils.data import DataLoader
 
 class KITTI(Dataset):
@@ -50,6 +50,11 @@ class KITTI(Dataset):
             intensity = np.expand_dims(intensity, axis = 0)
             real = np.concatenate((real, intensity), axis = 0)
 
+        # get point cloud img
+        range_im = real[0] # 64*1024
+        pts_im = range_image_to_point_cloud_image(range_im) # 64*1024*3
+        # split the point images 
+        # pts_ims = 
         return real# , 0
 
 if __name__ == "__main__":
@@ -58,4 +63,5 @@ if __name__ == "__main__":
 
     for itr, batch in enumerate(eval_loader):
         print(np.shape(batch))
+
     

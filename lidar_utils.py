@@ -158,6 +158,33 @@ def range_image_to_point_cloud(range_image):
     return np.stack(points, axis=0)
 
 
+def range_image_to_point_cloud_image(range_image):
+    # returns a images that is filled with one point at each pixel
+    points = np.zeros((range_image.shape[0],range_image.shape[1]))
+
+    fov_up = 3.0 / 180.0 * np.pi
+    fov_down = (-25.0) / 180.0 * np.pi
+    fov = abs(fov_up) + abs(fov_down)
+
+    for w_i in range(0, range_image.shape[0]):
+        for h_i in range(0, range_image.shape[1]):
+            w = w_i / range_image.shape[0]
+            h = h_i / range_image.shape[1]
+            yaw = ((w*2) - 1.0) * np.pi
+            pitch = ((1.0 - h) *  fov) - abs(fov_down)
+
+            x =  np.cos(yaw) * np.cos(pitch)
+            y =  -np.sin(yaw) * np.cos(pitch)
+            z =  np.sin(pitch)
+
+            x = range_image[w_i, h_i] * x
+            y = range_image[w_i, h_i] * y
+            z = range_image[w_i, h_i] * z
+
+            points[w_i,h_i] = np.array([x,y,z])
+    return points #np.stack(points, axis=0)
+
+
 '''
     Class taken fom semantic-kitti-api project.  https://github.com/PRBonn/semantic-kitti-api/blob/master/auxiliary/laserscan.py
 '''
