@@ -73,14 +73,14 @@ class KITTI(Dataset):
         furthest_distance = np.amax(np.sqrt(np.sum((pts[..., :3] - centroid) ** 2, axis=-1)), axis=1, keepdims=True)
         # radius = furthest_distance[:, 0] # not very sure?
 
-        radius = np.ones((16,4096))
+        radius = np.ones((16))
         pts[..., :3] -= centroid
         pts[..., :3] /= np.expand_dims(furthest_distance, axis=-1)
         input_data[..., :3] -= centroid
         input_data[..., :3] /= np.expand_dims(furthest_distance, axis=-1)
 
         # pts_ims = 
-        return input_data,pts, np.array([1]) # , 0
+        return input_data,pts, radius # , 0
 
 if __name__ == "__main__":
     dataloader = KITTI()
