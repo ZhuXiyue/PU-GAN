@@ -62,6 +62,9 @@ if __name__ == '__main__':
     with torch.no_grad():
         for itr, batch in enumerate(eval_loader):
             points, gt, radius = batch
+            print(np.shape(points))
+            print(np.shape(gt))
+            print(np.shape(radius))
             points = points[..., :3].float().cuda().contiguous()
             gt = gt[..., :3].float().cuda().contiguous()
             radius = radius.float().cuda()
