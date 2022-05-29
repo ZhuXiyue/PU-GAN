@@ -58,7 +58,7 @@ class KITTI(Dataset):
         pts_im = pts_im.reshape((64,16,64,3))
         pts_im = np.concatenate((pts_im,features),axis = 3) # (64,16,64,6)
         ## sampling
-        input_data = pts[0:64:4,:,:,:] #(16,16,64,6)
+        input_data = pts_im[0:64:4,:,:,:] #(16,16,64,6)
         pts_im = pts_im.transpose((1,0,2,3))# 16 64, 64,6
         input_data = input_data.transpose((1,0,2,3))# (16,16,64,6)
         
