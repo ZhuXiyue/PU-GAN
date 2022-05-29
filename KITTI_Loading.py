@@ -37,14 +37,14 @@ class KITTI(Dataset):
             ori_points, real, intensity = point_cloud_to_range_image(filename, False, self.return_remission)
         else:
             real = point_cloud_to_range_image(filename, False, self.return_remission)
-        print(np.shape(ori_points))
-        print(np.shape(real))
+        # print(np.shape(ori_points))
+        # print(np.shape(real))
         #Make negatives 0
-        real = np.where(real<0, 0, real) + 0.0001
+        # real = np.where(real<0, 0, real) + 0.0001
         #Apply log
-        real = ((np.log2(real+1)) / 6)
+        # real = ((np.log2(real+1)) / 6)
         #Make negatives 0
-        real = np.clip(real, 0, 1)
+        # real = np.clip(real, 0, 1)
         random_roll = np.random.randint(1024)
 
         if self.random_roll:
@@ -60,7 +60,7 @@ class KITTI(Dataset):
 
         # get point cloud img
         range_im = real[0] # 64*1024
-        pts_im = range_image_to_point_cloud_image(range_im) # 64*1024*3
+        pts_im = ori_points#range_image_to_point_cloud_image(range_im) # 64*1024*3
         np.save("sample.npy",pts_im.reshape((64*1024,3)))
         np.save("sample_ori.npy",range_image_to_point_cloud(range_im))
 
