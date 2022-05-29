@@ -264,7 +264,7 @@ class LaserScan:
 
         # put in attribute
         points = scan #[:, 0:3]    # get xyz
-        print(np.shape(scan))
+        # print(np.shape(scan))
         remissions = None #scan[:, 3]  # get remission
         self.set_points(points, remissions)
 
