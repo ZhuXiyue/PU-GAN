@@ -55,7 +55,7 @@ if __name__ == '__main__':
     model.eval().cuda()
 
     eval_dst = KITTI()#PUNET_Dataset(h5_file_path='./datas/Patches_noHole_and_collected.h5', split='test', is_training=False)
-    eval_loader = DataLoader(eval_dst, batch_size=16,#args.batch_size, 
+    eval_loader = DataLoader(eval_dst, batch_size=24,#args.batch_size, 
                         shuffle=False, pin_memory=True, num_workers=args.workers)
 
     emd_list = []
