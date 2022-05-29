@@ -107,10 +107,11 @@ class PUNET_Dataset(torch_data.Dataset):
         # print(np.mean(radius_data))
         # print(np.std(radius_data))
         # print(radius_data)
-        print(np.max(gt_data[:,3:]))
-        print(np.min(gt_data[:,3:]))
-        print(np.mean(gt_data[:,3:]))
-        print(np.std(gt_data[:,3:]))
+        print("for last channels")
+        print(np.max(gt_data[:,4:]))
+        print(np.min(gt_data[:,4:]))
+        print(np.mean(gt_data[:,4:]))
+        print(np.std(gt_data[:,4:]))
         sample_idx = utils.nonuniform_sampling(self.data_npoint, sample_num=self.npoint)
         input_data = input_data[sample_idx, :]
 
