@@ -160,7 +160,7 @@ def range_image_to_point_cloud(range_image):
 
 def range_image_to_point_cloud_image(range_image):
     # returns a images that is filled with one point at each pixel
-    points = np.zeros((range_image.shape[0],range_image.shape[1]))
+    points = np.zeros((range_image.shape[0],range_image.shape[1],3))
 
     fov_up = 3.0 / 180.0 * np.pi
     fov_down = (-25.0) / 180.0 * np.pi
