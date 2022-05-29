@@ -21,6 +21,7 @@ from torch.utils.data import DataLoader
 import numpy as np
 
 from dataset import PUNET_Dataset_WholeFPS_1k, PUNET_Dataset
+from KITTI_Loading import KITTI
 from chamfer_distance import chamfer_distance
 from auction_match import auction_match
 from pointnet2 import pointnet2_utils as pn2_utils
@@ -53,7 +54,7 @@ if __name__ == '__main__':
     model.load_state_dict(checkpoint['model_state'])
     model.eval().cuda()
 
-    eval_dst = PUNET_Dataset(h5_file_path='./datas/Patches_noHole_and_collected.h5', split='test', is_training=False)
+    eval_dst = KITTI()#PUNET_Dataset(h5_file_path='./datas/Patches_noHole_and_collected.h5', split='test', is_training=False)
     eval_loader = DataLoader(eval_dst, batch_size=args.batch_size, 
                         shuffle=False, pin_memory=True, num_workers=args.workers)
 
@@ -62,19 +63,17 @@ if __name__ == '__main__':
     with torch.no_grad():
         for itr, batch in enumerate(eval_loader):
             points, gt, radius = batch
-            print(np.shape(points))
-            print(np.shape(gt))
-            print(np.shape(radius))
-            points = points[..., :3].float().cuda().contiguous()
-            gt = gt[..., :3].float().cuda().contiguous()
-            radius = radius.float().cuda()
-            preds = model(points, npoint=None) #points.shape[1])
-
-            emd = get_emd_loss(preds, gt, radius)
-            cd = get_cd_loss(preds, gt, radius)
-            print(' -- iter {}, emd {}, cd {}.'.format(itr, emd, cd))
-            emd_list.append(emd.item())
-            cd_list.append(cd.item())
+            
+            for i in range(16):
+                cur_points = points[:,i,:,:3].float().cuda().contiguous()
+                cur_gt = gt[:,i,:,:3].float().cuda().contiguous()
+                cur_radius = radius[:,i].float().cuda()
+                cur_preds = model(cur_points, npoint=None) #points.shape[1])
+                emd = get_emd_loss(cur_preds, cur_gt, cur_radius)
+                cd = get_cd_loss(cur_preds, cur_gt, cur_radius)
+                print(' -- iter {}, emd {}, cd {}.'.format(itr, emd, cd))
+                emd_list.append(emd.item())
+                cd_list.append(cd.item())
     
     print('mean emd: {}'.format(np.mean(emd_list)))
     print('mean cd: {}'.format(np.mean(cd_list)))
