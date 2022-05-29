@@ -53,10 +53,12 @@ class KITTI(Dataset):
         # get point cloud img
         range_im = real[0] # 64*1024
         pts_im = range_image_to_point_cloud_image(range_im) # 64*1024*3
-        for idx in 
+        features = np.zeros((64,16,64,3)) + 0.042
+        pts_im = pts_im.reshape((64,16,64,3))
+        pts_im = np.concatenate((pts_im,features),axis = 3)
         # split the point images 
         # pts_ims = 
-        return real# , 0
+        return pts_im# , 0
 
 if __name__ == "__main__":
     dataloader = KITTI()
