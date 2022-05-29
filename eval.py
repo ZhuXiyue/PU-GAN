@@ -69,6 +69,7 @@ if __name__ == '__main__':
                 cur_gt = gt[:,i,:,:3].float().cuda().contiguous()
                 cur_radius = radius[:,i:i+1].float().cuda()
                 cur_preds = model(cur_points, npoint=None) #points.shape[1])
+
                 emd = get_emd_loss(cur_preds, cur_gt, cur_radius)
                 cd = get_cd_loss(cur_preds, cur_gt, cur_radius)
                 print(' -- iter {}, emd {}, cd {}.'.format(itr, emd, cd))
@@ -77,6 +78,8 @@ if __name__ == '__main__':
                 np.save("pts_"+str(itr)+"_"+str(i),cur_points.detach().cpu().numpy())
                 np.save("gts_"+str(itr)+"_"+str(i),cur_gt.detach().cpu().numpy())
                 np.save("pres_"+str(itr)+"_"+str(i),cur_preds.detach().cpu().numpy())
+                print(np.shape(cur_preds.detach().cpu().numpy()))
+                
                 preds.append(cur_preds)
             preds = np.array(preds).reshape(-1,3)
             np.save("pts_"+str(itr)+"_",points.detach().cpu().numpy())
