@@ -55,7 +55,7 @@ if __name__ == '__main__':
     model.eval().cuda()
 
     eval_dst = KITTI()#PUNET_Dataset(h5_file_path='./datas/Patches_noHole_and_collected.h5', split='test', is_training=False)
-    eval_loader = DataLoader(eval_dst, batch_size=1,#args.batch_size, 
+    eval_loader = DataLoader(eval_dst, batch_size=16,#args.batch_size, 
                         shuffle=False, pin_memory=True, num_workers=args.workers)
 
     emd_list = []
@@ -75,26 +75,26 @@ if __name__ == '__main__':
                 print(' -- iter {}, emd {}, cd {}.'.format(itr, emd, cd))
                 emd_list.append(emd.item())
                 cd_list.append(cd.item())
-                np.save("pts_"+str(itr)+"_"+str(i),cur_points.detach().cpu().numpy())
-                np.save("gts_"+str(itr)+"_"+str(i),cur_gt.detach().cpu().numpy())
-                np.save("pres_"+str(itr)+"_"+str(i),cur_preds.detach().cpu().numpy())
+                # np.save("pts_"+str(itr)+"_"+str(i),cur_points.detach().cpu().numpy())
+                # np.save("gts_"+str(itr)+"_"+str(i),cur_gt.detach().cpu().numpy())
+                # np.save("preds_"+str(itr)+"_"+str(i),cur_preds.detach().cpu().numpy())
                 # print(np.shape(cur_preds.detach().cpu().numpy()))
 
                 preds.append(cur_preds.detach().cpu().numpy())
 
             preds = np.array(preds) #16, 8, 4096, 3
-            preds = preds.transpose((1,0,2,3))[0] # .reshape((8,16*4096,3))
-            gt = gt.detach().cpu().numpy()[0]
-            points = points.detach().cpu().numpy()[0]
-            centroid = centroid.detach().cpu().numpy()[0]
-            furthest_distance = furthest_distance.detach().cpu().numpy()[0]
+            preds = preds.transpose((1,0,2,3)) # .reshape((8,16*4096,3))
+            gt = gt.detach().cpu().numpy()
+            points = points.detach().cpu().numpy()
+            # centroid = centroid.detach().cpu().numpy()
+            # furthest_distance = furthest_distance.detach().cpu().numpy()
             
-            gt[..., :3] *= np.expand_dims(furthest_distance, axis=-1)
-            gt[..., :3] += centroid
-            points[..., :3] *= np.expand_dims(furthest_distance, axis=-1)
-            points[..., :3] += centroid
-            preds[..., :3] *= np.expand_dims(furthest_distance, axis=-1)
-            preds[..., :3] += centroid
+            # gt[..., :3] *= np.expand_dims(furthest_distance, axis=-1)
+            # gt[..., :3] += centroid
+            # points[..., :3] *= np.expand_dims(furthest_distance, axis=-1)
+            # points[..., :3] += centroid
+            # preds[..., :3] *= np.expand_dims(furthest_distance, axis=-1)
+            # preds[..., :3] += centroid
             
 
             print(np.shape(preds))
