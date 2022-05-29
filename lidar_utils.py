@@ -153,8 +153,8 @@ def range_image_to_point_cloud(range_image):
             x = range_image[w_i, h_i] * x
             y = range_image[w_i, h_i] * y
             z = range_image[w_i, h_i] * z
-
-            points.append(np.array([x,y,z]))
+            if not range_image[w_i, h_i] == -1:
+                points.append(np.array([x,y,z]))
     return np.stack(points, axis=0)
 
 
