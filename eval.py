@@ -101,8 +101,8 @@ if __name__ == '__main__':
             print(np.shape(gt))
             print(np.shape(points))
 
-            np.save("pts_"+str(itr)+"_",gt)
-            np.save("gts_"+str(itr)+"_",preds)
+            np.save("pts_"+str(itr)+"_",points)
+            np.save("gts_"+str(itr)+"_",gt)
             np.save("preds_"+str(itr)+"_",preds)
             
     print('mean emd: {}'.format(np.mean(emd_list)))
