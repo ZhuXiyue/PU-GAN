@@ -84,8 +84,8 @@ if __name__ == '__main__':
 
             preds = np.array(preds) #16, 8, 4096, 3
             preds = preds.transpose((1,0,2,3)) # .reshape((8,16*4096,3))
-            gt = gt.detach().cpu().numpy()
-            points = points.detach().cpu().numpy()
+            gt = gt.detach().cpu().numpy()[:,:,:,:3]
+            points = points.detach().cpu().numpy()[:,:,:,:3]
             # centroid = centroid.detach().cpu().numpy()
             # furthest_distance = furthest_distance.detach().cpu().numpy()
             
